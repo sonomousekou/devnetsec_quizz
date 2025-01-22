@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .answers {
+            margin-left: 20px;
+        }
+        .answers div {
+            margin: 5px 0;
+        }
+        hr {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Quiz</h1>
+        <!-- Liste des questions -->
+        <h3>Catégorie : {{ categorie.libelle }}</h3>
+
+        {% if quiz_data %}
+            <form method="post" action="{% url 'submit_quiz' %}">
+                {% csrf_token %}
+                {% for question in quiz_data %}
+                    <div class="question">
+                        <p><strong>Question :</strong> {{ question.question }}</p>
+                        <div class="answers">
+                            <strong>Réponses :</strong>
+                            {% for answer in question.answer %}
+                                <div>
+                                    <input 
+                                        type="radio" 
+                                        name="q{{ forloop.counter }}" 
+                                        value="{{ answer.answer }}" 
+                                        id="q{{ forloop.counter }}_{{ forloop.innercounter }}">
+                                    <label for="q{{ forloop.counter }}_{{ forloop.innercounter }}">
+                                        {{ answer.answer }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <hr>
+                {% endfor %}
+                <button type="submit">Soumettre</button>
+            </form>
+        {% else %}
+            <p>Aucune question trouvée.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

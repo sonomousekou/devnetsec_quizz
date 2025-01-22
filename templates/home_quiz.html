@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Home</title>
+</head>
+<body>
+    <h1>Catégories de Quiz</h1>
+    <ul>
+        {% for categorie in categories %}
+            <li>
+                <a href="{% url 'quiz_view' categorie.slug %}">{{ categorie.libelle }}</a>
+                {% if categorie.image %}
+                    <img src="{{ categorie.image.url }}" alt="{{ categorie.libelle }}" style="width: 100px;">
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
